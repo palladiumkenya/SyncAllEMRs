@@ -2,17 +2,16 @@ version: '3'
 
 
 services:
-  web:
+  dwh_his_sync_allemrs:
     build: .
-    image: dwh_his_sync_allemrs
+#    image: dwh_his_sync_allemrs
     volumes:
-      - .:/project    
-    depends_on:
-      - mysql
+      - .:/project
     ports:
-      - "5001:5000"
+      - "5010:5000"
     environment:
       MODULE_WEB_ADMIN: 'true'
+    env_file: ./.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5001/"]
     command:

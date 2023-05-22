@@ -15,16 +15,29 @@ load_dotenv()
 
 app = Flask(__name__)
 
+for variable, value in os.environ.items():
+    app.config[variable] = value
+
+# print('os.getenv(username) ', os.getenv('DB_USERNAME'))
+# print('os.getenv(username) ',os.getenv('DB_PASSWORD'))
+# print('os.getenv(username) ', os.getenv('DB_SERVER'))
+# print('os.getenv(username) ',os.getenv('DB_NAME'))
+# print('conn string', 'mssql+pyodbc://'+os.getenv('DB_USERNAME')+':'+os.getenv('DB_PASSWORD')+'@'+os.getenv('DB_SERVER')+'/'+os.getenv('DB_NAME')+'?driver=ODBC+Driver+17+for+SQL+Server')
 app.secret_key = os.getenv("SECRET_KEY")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://'+os.getenv('DB_USERNAME')+':'+os.getenv('DB_PASSWORD')+'@'+os.getenv('DB_Server')+'/'+os.getenv('DB_NAME')+'?driver=ODBC+Driver+17+for+SQL+Server'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://'+os.getenv('DB_USERNAME')+':'+os.getenv('DB_PASSWORD')+'@'+os.getenv('DB_SERVER')+'/'+os.getenv('DB_NAME')+'?driver=ODBC+Driver+17+for+SQL+Server'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 
-@app.route('/sync/facility' ,methods = ['POST', 'GET'])
+
+@app.route('/' ,methods = ['GET'])
+def default():  # put application's code here
+    return '{ status:200, version:1.00, success: Sync App running }'
+
+@app.route('/sync/facility' ,methods = ['POST'])
 def sync_facility():  # put application's code here
     content = request.json
     # print(content)
@@ -49,7 +62,7 @@ def sync_facility():  # put application's code here
     return f'============ success ============ '
 
 
-@app.route('/sync/full/list/facilities/emrs' ,methods = ['POST', 'GET'])
+@app.route('/sync/full/list/facilities/emrs' ,methods = ['GET'])
 def sync_facilities_emrs():  # put application's code here
     contents = request.json
     #clear table first
@@ -76,5 +89,5 @@ def sync_facilities_emrs():  # put application's code here
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
 

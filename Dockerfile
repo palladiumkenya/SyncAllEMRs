@@ -1,6 +1,6 @@
 
 # base image
-FROM python:3.10
+FROM python:3.11
 # setup environment variable
 #ENV DockerHOME=/home/project
 
@@ -31,20 +31,21 @@ RUN pip install -r requirements.txt
 #RUN pip install mysqlclient
 #RUN pip install XlsxWriter
 
-ADD entrypoint.sh /project
-RUN chmod +x *.sh
+#ADD entrypoint.sh /project
+#RUN chmod +x *.sh
+
+# set environment variables
+ENV DB_USERNAME 1
+ENV DB_PASSWORD 1
+ENV DB_SERVER 1
+ENV DB_NAME 1
 
 # copy whole project to your docker home directory. COPY . $DockerHOME
 COPY . /project
-#RUN mkdir -p /tmp/app/webapp/mysqld && chmod -R 777 /tmp/app/webapp/mysqld
-#ADD mfldbdump.sql /docker-entrypoint-initdb.d
 
-ADD updated_db_data.json /project
-
-# port where the Django app runs
+# port where the  app runs
 EXPOSE 5000
 # start server
-#CMD python manage.py makemigrations
 CMD python app.py 0.0.0.0:5000
 
 
