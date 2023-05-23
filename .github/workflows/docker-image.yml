@@ -20,12 +20,12 @@ jobs:
         key: ${{ secrets.CICD_SECRET }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /apps/github-workflows/SyncAllEMRs
-          sudo chown -R cicd:cicd ../SyncAllEMRs
-          git pull https://github.com/palladiumkenya/SyncAllEMRs.git
-          cp /apps/config/SyncAllEMRs/Dockerfile .
-          cp /apps/config/SyncAllEMRs/docker-compose.yml .
-          cp /apps/config/SyncAllEMRs/.env .
+          cd /apps/githubworkflows/
+          sudo chown -R cicd:cicd SyncAllEMRs
+          sudo cd SyncAllEMRs && git pull https://github.com/palladiumkenya/SyncAllEMRs.git
+          cp /apps/dockerApps/SyncAllEMRs/Dockerfile .
+          cp /apps/dockerApps/SyncAllEMRs/docker-compose.yml .
+          cp /apps/dockerApps/SyncAllEMRs/.env .
           docker-compose stop dwh_his_sync_allemrs &&  docker-compose rm -f dwh_his_sync_allemrs
           docker-compose up -d
           echo "done"
