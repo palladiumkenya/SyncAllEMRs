@@ -1,0 +1,32 @@
+name: Deployment CICD
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote connection
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.CICD_SECRET }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /apps/github-workflows/SyncAllEMRs
+          sudo chown -R cicd:cicd ../SyncAllEMRs
+          git pull https://github.com/palladiumkenya/SyncAllEMRs.git
+          cp /apps/config/SyncAllEMRs/Dockerfile .
+          cp /apps/config/SyncAllEMRs/docker-compose.yml .
+          cp /apps/config/SyncAllEMRs/.env .
+          docker-compose stop dwh_his_sync_allemrs &&  docker-compose rm -f dwh_his_sync_allemrs
+          docker-compose up -d
+          echo "done"
+          
