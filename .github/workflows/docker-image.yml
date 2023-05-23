@@ -22,7 +22,7 @@ jobs:
         script: |
           cd /apps/githubworkflows/
           sudo chown -R cicd:cicd SyncAllEMRs
-          sudo cd SyncAllEMRs && git pull https://github.com/palladiumkenya/SyncAllEMRs.git
+          cd SyncAllEMRs && git pull https://github.com/palladiumkenya/SyncAllEMRs.git
           sudo cp /apps/dockerApps/SyncAllEMRs/Dockerfile .
           sudo cp /apps/dockerApps/SyncAllEMRs/docker-compose.yml .
           sudo cp /apps/dockerApps/SyncAllEMRs/.env .
