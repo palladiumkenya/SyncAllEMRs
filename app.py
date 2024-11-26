@@ -92,7 +92,7 @@ def sync_facilities_emrs():  # put application's code here
                             Implementation= content["implementation"], EMR= content["EMR"], EMR_Status= content["EMR_Status"],
                             HTS_Use= content["HTS_Use"], HTS_Deployment= content["HTS_Deployment"], HTS_Status= content["HTS_Status"],
                             mlab= content["Mlab"], Ushauri= content["Ushauri"],Nishauri= content["Nishauri"],
-                            OVC= content["OVC"], OTZ= content["OTZ"],
+                            OVC= content["OVC"], OTZ= content["OTZ"],InfrastructureType= content["InfrastructureType"], KEPH_Level= content["KEPH_Level"],
                             PrEP= content["PrEP"], AIR= content["AIR"], KP= content["KP"], MCH= content["MCH"],
                             Lab_Manifest= content["Lab_Manifest"], Comments= "", Project= "KenyaHMIS III", EMRType=content["EMRType"])
 
@@ -110,4 +110,3 @@ def sync_facilities_emrs():  # put application's code here
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
-

@@ -1,8 +1,6 @@
 
 # base image
-FROM python:3.11
-# setup environment variable
-#ENV DockerHOME=/home/project
+FROM laudio/pyodbc:latest
 
 # set work directory RUN mkdir -p $DockerHOME
 RUN mkdir /project
@@ -19,20 +17,23 @@ ADD . /project/
 # install dependencies
 RUN pip install --upgrade pip
 
-RUN apt-get update -qq && \
-apt-get install -y --no-install-recommends \
-libmpc-dev \
-libgmp-dev \
-libmpfr-dev \
-unixodbc-dev
+# install FreeTDS and dependencies
+RUN apt-get update \
+ && apt-get install unixodbc -y \
+ && apt-get install unixodbc-dev -y \
+ && apt-get install freetds-dev -y \
+ && apt-get install freetds-bin -y \
+ && apt-get install tdsodbc -y \
+ && apt-get install --reinstall build-essential -y
+# populate "ocbcinst.ini" as this is where ODBC driver config sits
+RUN echo "[FreeTDS]\n\
+Description = FreeTDS Driver\n\
+Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
+Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini \
+
 # run this command to install all dependencies
 ADD requirements.txt /project
 RUN pip install -r requirements.txt
-#RUN pip install mysqlclient
-#RUN pip install XlsxWriter
-
-#ADD entrypoint.sh /project
-#RUN chmod +x *.sh
 
 # set environment variables
 ENV DB_USERNAME 1

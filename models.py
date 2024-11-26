@@ -1,4 +1,4 @@
-﻿from app import db
+from app import db
 #from sqlalchemy_utils import ScalarListType
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.dialects.postgresql import JSON
@@ -26,8 +26,8 @@ class All_EMRSites(db.Model):
     HTS_Use = db.Column('HTS_Use', db.String(100), nullable=False)
     HTS_Deployment = db.Column('HTS_Deployment', db.String(100), nullable=False)
     HTS_Status = db.Column('HTS_Status', db.String(100), nullable=False)
-    # IL_Status = db.Column('IL Status',db.String(100), nullable=False)
-    # Registration_IE = db.Column('Registration IE',db.String(100), nullable=False)
+    KEPH_Level = db.Column('KEPH_Level',db.String(100), nullable=False)
+    InfrastructureType = db.Column('InfrastructureType',db.String(100), nullable=False)
     # Phamarmacy_IE = db.Column('Phamarmacy IE',db.String(100), nullable=False)
     mlab = db.Column(db.String(100), nullable=False)
     Ushauri = db.Column(db.String(100), nullable=False)
